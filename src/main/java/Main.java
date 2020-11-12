@@ -15,7 +15,7 @@ public class Main extends ListenerAdapter {
     public static String token;
 
     public static void main(String[] args) {
-        token = "Nzc2NTIxNDcxMzkyMzUwMjg4.X62F-Q.umBy158yYULr1ZJiCnnyLzW90yA";
+        token = ReadToken.readToken();
         try {
             startBot();
         } catch (InterruptedException e) {
