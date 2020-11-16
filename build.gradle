@@ -5,6 +5,14 @@ plugins {
 group 'org.example'
 version '1.0-SNAPSHOT'
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'Main'
+        )
+    }
+}
+
 repositories {
     mavenCentral()
     jcenter()
@@ -17,3 +25,10 @@ dependencies {
 //Idk but it's necessary for Heroku hosting
 task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
+
+task copyToLib(type: Copy) {
+    into "$buildDir/libs"
+    from(configurations.compile)
+}
+build.dependsOn(copyToLib)
+stage.dependsOn(copyToLib)
