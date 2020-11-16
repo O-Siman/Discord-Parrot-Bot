@@ -2,10 +2,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -28,6 +25,7 @@ public class Main extends ListenerAdapter {
     public static boolean startBot() throws InterruptedException {
 
         JDABuilder preBuild = JDABuilder.createDefault(token);
+        preBuild.setActivity(Activity.of(Activity.ActivityType.CUSTOM_STATUS, "p!help"));
         try {
             api = preBuild.build();
         } catch (Exception e) {
