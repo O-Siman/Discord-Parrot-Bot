@@ -1,1 +1,1 @@
-worker: java -jar target/bot-1.0-jar-with-dependencies.jar
+worker: java -jar "Discord Parrot Bot-1.0-SNAPSHOT".jar
