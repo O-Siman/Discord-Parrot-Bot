@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
@@ -62,12 +63,14 @@ public class Main extends ListenerAdapter {
 
             //If message with no whitespace is "p!"
             if (messageRaw.trim().equals("p!")) {
-                HelpCommand.helpCommand(event);
+                HelpCommand.helpCommand(event.getAuthor());
+                event.getChannel().sendMessage("Check your DMs for the help menu.").queue();
                 return;
             }
 
             if (messageRaw.contains("p!help")) {
-                HelpCommand.helpCommand(event);
+                HelpCommand.helpCommand(event.getAuthor());
+                event.getChannel().sendMessage("Check your DMs for the help menu.").queue();
                 return;
             }
 
@@ -85,6 +88,23 @@ public class Main extends ListenerAdapter {
                 channelToSendMessage.sendMessage(newMessage).queue();
                 message.delete().queue();
             }
+        }
+    }
+
+    @Override
+    public void onPrivateMessageReceived(@NotNull PrivateMessageReceivedEvent event) {
+        //Vars
+        Message message = event.getMessage();
+        String messageRaw = message.getContentRaw();
+        String messageNoPrefix = messageRaw.substring(2);
+        PrivateChannel channel = event.getChannel();
+
+        //Don't reply to bots
+        if (event.getAuthor().isBot())
+            return;
+
+        if (messageRaw.contains("p!help") || messageRaw.contains("help") || messageRaw.contains("p!")) {
+            HelpCommand.helpCommand(event.getAuthor());
         }
     }
 }
