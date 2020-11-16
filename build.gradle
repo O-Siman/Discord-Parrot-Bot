@@ -25,5 +25,5 @@ dependencies {
 }
 
 //Idk but it's necessary for Heroku hosting
-task stage(dependsOn: ['build', 'clean'])
+task stage(dependsOn: ['shadowJar', 'clean'])
 build.mustRunAfter clean
