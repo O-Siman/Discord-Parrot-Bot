@@ -21,5 +21,7 @@ public class HelpCommand {
             //Send embed
             dmChannel.sendMessage(finalEmbed).queue();
         });
+
+        event.getChannel().sendMessage("Check your DMs for the help menu.").queue();
     }
 }

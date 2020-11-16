@@ -25,7 +25,7 @@ public class Main extends ListenerAdapter {
     public static boolean startBot() throws InterruptedException {
 
         JDABuilder preBuild = JDABuilder.createDefault(token);
-        preBuild.setActivity(Activity.of(Activity.ActivityType.CUSTOM_STATUS, "p!help"));
+        preBuild.setActivity(Activity.of(Activity.ActivityType.WATCHING, "for p!"));
         try {
             api = preBuild.build();
         } catch (Exception e) {
@@ -59,6 +59,12 @@ public class Main extends ListenerAdapter {
 
             if (!event.getMember().hasPermission(Permission.MESSAGE_MANAGE))
                 return;
+
+            //If message with no whitespace is "p!"
+            if (messageRaw.trim().equals("p!")) {
+                HelpCommand.helpCommand(event);
+                return;
+            }
 
             if (messageRaw.contains("p!help")) {
                 HelpCommand.helpCommand(event);
