@@ -71,9 +71,6 @@ public class Main extends ListenerAdapter {
             if (message.getMentionedChannels().isEmpty()) {
                 channel.sendMessage(messageNoPrefix).queue();
                 //If an image is attached
-                if (!message.getAttachments().isEmpty())
-//                    channel.sendMessage("").addFile(message.getAttachments());
-
                 message.delete().queue();
             }
             //If a channel is mentioned
