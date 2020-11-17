@@ -96,7 +96,6 @@ public class Main extends ListenerAdapter {
         //Vars
         Message message = event.getMessage();
         String messageRaw = message.getContentRaw();
-        String messageNoPrefix = messageRaw.substring(2);
         PrivateChannel channel = event.getChannel();
 
         //Don't reply to bots
