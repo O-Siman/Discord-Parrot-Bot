@@ -22,7 +22,6 @@ public class Main extends ListenerAdapter {
     }
 
 
-
     public static boolean startBot() throws InterruptedException {
 
         JDABuilder preBuild = JDABuilder.createDefault(token);
@@ -43,14 +42,17 @@ public class Main extends ListenerAdapter {
         //Vars
         Message message = event.getMessage();
         String messageRaw = message.getContentRaw();
-        String messageNoPrefix = messageRaw.substring(2);
         TextChannel channel = event.getChannel();
 
         //Don't reply to bots
         if (event.getAuthor().isBot())
             return;
 
-        if (messageRaw.startsWith("p!")) {
+        if (!messageRaw.startsWith("p!"))
+            return;
+
+        String messageNoPrefix = messageRaw.substring(2);
+
             /*
             Role parrotControllerRole = event.getGuild().getRoleById("776528941098729473");
 
@@ -58,37 +60,31 @@ public class Main extends ListenerAdapter {
                 return;
                 */
 
-            if (!event.getMember().hasPermission(Permission.MESSAGE_MANAGE))
-                return;
+        if (!event.getMember().hasPermission(Permission.MESSAGE_MANAGE))
+            return;
 
-            //If message with no whitespace is "p!"
-            if (messageRaw.trim().equals("p!")) {
-                HelpCommand.helpCommand(event.getAuthor());
-                event.getChannel().sendMessage("Check your DMs for the help menu.").queue();
-                return;
-            }
-
-            if (messageRaw.contains("p!help")) {
-                HelpCommand.helpCommand(event.getAuthor());
-                event.getChannel().sendMessage("Check your DMs for the help menu.").queue();
-                return;
-            }
-
-            //If no channel's mentioned
-            if (message.getMentionedChannels().isEmpty()) {
-                channel.sendMessage(messageNoPrefix).queue();
-                //If an image is attached
-                message.delete().queue();
-            }
-            //If a channel is mentioned
-            else {
-                TextChannel channelToSendMessage = message.getMentionedChannels().get(0);
-
-                String newMessage = messageNoPrefix.replaceFirst("<#[0-9]+>", "");
-                channelToSendMessage.sendMessage(newMessage).queue();
-                message.delete().queue();
-            }
+        //If message with no whitespace is "p!"
+        if (messageRaw.trim().equals("p!") || messageRaw.contains("p!help")) {
+            HelpCommand.helpCommand(event.getAuthor());
+            event.getChannel().sendMessage("Check your DMs for the help menu.").queue();
+            return;
         }
+
+        //If no channel's mentioned
+        if (message.getMentionedChannels().isEmpty()) {
+            channel.sendMessage(messageNoPrefix).queue();
+        }
+
+        //If a channel is mentioned
+        else {
+            TextChannel channelToSendMessage = message.getMentionedChannels().get(0);
+
+            String newMessage = messageNoPrefix.replaceFirst("<#[0-9]+>", "");
+            channelToSendMessage.sendMessage(newMessage).queue();
+        }
+
+        //Delete original message
+        message.delete().queue();
     }
 
     @Override
