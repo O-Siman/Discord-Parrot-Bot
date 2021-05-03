@@ -16,7 +16,7 @@ public class Main extends ListenerAdapter {
     public static String token;
 
     public static void main(String[] args) {
-        token = ReadToken.readToken();
+        token = System.getenv("PARROT_TOKEN");
         try {
             startBot();
         } catch (InterruptedException e) {
