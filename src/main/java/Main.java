@@ -8,6 +8,9 @@ import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main extends ListenerAdapter {
     public static JDA api;
     public static String token;
@@ -60,8 +63,8 @@ public class Main extends ListenerAdapter {
                 return;
                 */
 
-        if (!event.getMember().hasPermission(Permission.MESSAGE_MANAGE))
-            return;
+//        if (!event.getMember().hasPermission(Permission.MESSAGE_MANAGE))
+//            return;
 
         //If message with no whitespace is "p!"
         if (messageRaw.trim().equals("p!") || messageRaw.contains("p!help")) {
@@ -72,6 +75,12 @@ public class Main extends ListenerAdapter {
 
         //If no channel's mentioned
         if (message.getMentionedChannels().isEmpty()) {
+            //If attachment is attached
+            List<Message.Attachment> attachments = message.getAttachments();
+            if (!attachments.isEmpty()) {
+                //TODO: Attachments to file, sendMessage with .addFile
+            }
+
             channel.sendMessage(messageNoPrefix).queue();
         }
 
